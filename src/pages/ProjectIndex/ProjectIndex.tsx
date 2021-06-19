@@ -29,7 +29,7 @@ const ProjectIndex: React.FC = () => {
     } = useReqIndex()
 
     // configure to change table header
-    const theadData = ['', 'Request - Line', 'Description, Tags', '']
+    const theadData = ['', 'Project - Line', 'Description, Tags', '']
     const tbodyData = fetchedData
 
     
