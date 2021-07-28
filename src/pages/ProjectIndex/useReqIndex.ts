@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import uniqid from 'uniqid'
 // SERVICES
-import { getReqIndex } from '../../services/ReqIndexService'
-import { postReqIndex, deleteReqIndex } from '../../services/ReqIndexService'
+import { getReqIndex, postReqIndex, deleteReqIndex } from '../../services/ReqIndexService'
 // CONSTANTS
 import { MAIN } from './pageConstants'
 //TYPES
