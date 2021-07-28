@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // CONTAINER
 import { TableContainer } from '../../components/Table/TableStyles'
 // COMPONENTS
@@ -17,8 +17,6 @@ const ProjectIndex: React.FC = () => {
 
     const {
         data,
-        fetchedData,
-        setFetchedData,
         removeReqIndex,
         currentComponent,
         setCurrentComponent,
@@ -30,14 +28,7 @@ const ProjectIndex: React.FC = () => {
 
     // configure to change table header
     const theadData = ['', 'Project - Line', 'Description, Tags', '']
-    const tbodyData = fetchedData
-
-    
-    useEffect(() => {
-
-        setFetchedData(prev => [...prev, ...(typeof data === 'object' ? data : [])])
-
-    }, [data, setFetchedData])
+    const tbodyData = data
 
 
     return (
