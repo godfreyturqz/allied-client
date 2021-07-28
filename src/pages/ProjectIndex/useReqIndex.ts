@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import uniqid from 'uniqid'
 // SERVICES
-import { getReqIndex } from '../../services/ReqIndexService'
-import { postReqIndex, deleteReqIndex } from '../../services/ReqIndexService'
+import { getReqIndex, postReqIndex, deleteReqIndex } from '../../services/ReqIndexService'
 // CONSTANTS
 import { MAIN } from './pageConstants'
 //TYPES
@@ -18,11 +17,26 @@ const initialState = {
 
 export const useReqIndex = () => {
 
-    const [fetchedData, setFetchedData] = useState<Data[]>([])
     const [currentComponent, setCurrentComponent] = useState(MAIN)
     const [formData, setFormData] = useState<ReqIndexForm>(initialState)
 
+    const queryClient = useQueryClient()
     const { data } = useQuery('reqIndex', getReqIndex)
+    const mutation = useMutation((payload: Data) => postReqIndex(payload), {
+        onMutate: async (payload: Data) => {
+            
+            console.log(payload)
+            await queryClient.cancelQueries('reqIndex')
+
+            const previousState = queryClient.getQueryData<Data[]>('reqIndex')
+
+            if (previousState) {
+                queryClient.setQueryData<Data[]>('reqIndex', prev => [payload, ...(typeof prev === 'object' ? prev : [])])
+            }
+
+            return { previousState }
+        }
+    })
 
     const handleInputChange = (e: InputChangeEvent) => {
         setFormData(prev => ({
@@ -31,14 +45,11 @@ export const useReqIndex = () => {
         }))
     }
 
-    const handleFormSubmit = (
-        e: SubmitFormEvent,
-        formData: ReqIndexForm
-    ) => {
+    const handleFormSubmit = (e: SubmitFormEvent, formData: ReqIndexForm) => {
 
         e.preventDefault()
         if(!formData.reqLine || !formData.description) return console.log('Fill up the required fields.')
-    
+
         addReqIndex(formData)
         setFormData(initialState)
     }
@@ -52,10 +63,7 @@ export const useReqIndex = () => {
                 ...formData
             }
 
-            postReqIndex(newReqIndex)
-    
-            setFetchedData(prev => [{...newReqIndex}, ...prev])
-            setFormData(initialState)
+            mutation.mutate(newReqIndex)
             setCurrentComponent(MAIN)
 
         } catch (error) {
@@ -67,8 +75,7 @@ export const useReqIndex = () => {
         console.log(id)
         try {
             deleteReqIndex(id)
-            const filteredData = fetchedData.filter(value => value.uniqid !== id)
-            setFetchedData(() => [...filteredData])
+            // create a useMutation for delete
 
         } catch (error) {
             console.log(error)
@@ -77,8 +84,6 @@ export const useReqIndex = () => {
 
     return {
         data,
-        fetchedData,
-        setFetchedData,
         removeReqIndex,
         currentComponent,
         setCurrentComponent,

@@ -12,7 +12,7 @@ type Data = {
 
 type TableProps = {
     theadData: string[] | React.ReactNode[]
-    tbodyData: Data[]
+    tbodyData: Data[] | undefined
     removeReqIndex: (id: string) => void
 }
 
@@ -27,13 +27,13 @@ const Table: React.FC<TableProps> = ({
             <thead>
                 <TableRow>
                     {
-                        tbodyData && theadData && theadData.map(tableHead => <th>{tableHead}</th>)
+                        theadData?.map(tableHead => <th>{tableHead}</th>)
                     }
                 </TableRow>
             </thead>
             <tbody>
                 {
-                    tbodyData && tbodyData.map(obj => 
+                    tbodyData?.map(obj => 
                         <TableRow>
                             {
                                 Object.entries(obj).map(([key, value]) => <td>{key === 'uniqid' ? '' : value}</td>)
