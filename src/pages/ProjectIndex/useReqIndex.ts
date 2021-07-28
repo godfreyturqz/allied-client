@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuery, useMutation } from 'react-query'
+import { useQuery } from 'react-query'
 import uniqid from 'uniqid'
 // SERVICES
 import { getReqIndex } from '../../services/ReqIndexService'
@@ -23,7 +23,6 @@ export const useReqIndex = () => {
     const [formData, setFormData] = useState<ReqIndexForm>(initialState)
 
     const { data } = useQuery('reqIndex', getReqIndex)
-    const mutation = useMutation((payload: Data) => postReqIndex(payload))
 
     const handleInputChange = (e: InputChangeEvent) => {
         setFormData(prev => ({
