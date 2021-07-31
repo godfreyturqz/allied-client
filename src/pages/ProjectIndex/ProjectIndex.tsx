@@ -1,23 +1,21 @@
 import React from 'react'
-// CONTAINER
-import { TableContainer } from '../../components/Table/TableStyles'
 // COMPONENTS
-import Banner from '../../components/Banner'
+import Header from '../../components/Banner'
 import Table from '../../components/Table/Table'
 import Button from '../../components/Button'
 // PAGE
 import ProjectIndexForm from './ProjectIndexForm'
 // CONSTANTS
-import { MAIN, FORM } from './pageConstants'
+import { TABLE_LIST, CREATE_FORM } from './PAGE_CONSTANTS'
 // CUSTOM HOOK
-import { useReqIndex } from './useReqIndex'
+import { useReqIndex } from './useProjectIndex'
 
 
 const ProjectIndex: React.FC = () => {
 
     const {
         data,
-        removeReqIndex,
+        removeProjectIndex,
         currentComponent,
         setCurrentComponent,
         formData,
@@ -33,35 +31,30 @@ const ProjectIndex: React.FC = () => {
 
     return (
         <>
-            <Banner size='medium'>
+            <Header size='medium'>
                 <p>Project Index</p>
-                <Button secondary onClick={() => setCurrentComponent(prev => prev === MAIN ? FORM : MAIN)} >
+                <Button secondary onClick={() => setCurrentComponent(prev => prev === TABLE_LIST ? CREATE_FORM : TABLE_LIST)} >
                     { 
-                        currentComponent === MAIN ? 'Add' :
-                        currentComponent === FORM ? 'Back' : ''
+                        currentComponent === TABLE_LIST ? 'Add' :
+                        currentComponent === CREATE_FORM ? 'Back' : ''
                     }
                 </Button>
-            </Banner>
-            {
-                currentComponent === MAIN &&
-                <TableContainer>
-                    <Table 
-                        theadData={theadData}
-                        tbodyData={tbodyData}
-                        removeReqIndex={removeReqIndex}
-                    />
-                </TableContainer>
+            </Header>
+            { currentComponent === TABLE_LIST &&
+            <Table 
+                theadData={theadData}
+                tbodyData={tbodyData}
+                deleteItem={removeProjectIndex}
+            />
             }
-
-            {
-                currentComponent === FORM &&
-                <ProjectIndexForm
-                    formData={formData}
-                    setFormData={setFormData}
-                    handleInputChange={handleInputChange}
-                    handleFormSubmit={handleFormSubmit}
-                    setCurrentComponent={setCurrentComponent}
-                />
+            { currentComponent === CREATE_FORM &&
+            <ProjectIndexForm
+                formData={formData}
+                setFormData={setFormData}
+                handleInputChange={handleInputChange}
+                handleFormSubmit={handleFormSubmit}
+                setCurrentComponent={setCurrentComponent}
+            />
             }
         </>
     )

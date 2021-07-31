@@ -9,7 +9,7 @@ interface StyledButtonProps {
 const StyledButton = styled.button<StyledButtonProps>`
     padding: 6px 16px;
     border-radius: 16px;
-    min-width: 64px;
+    min-width: 128px;
 
     background-color: ${props =>
         props.primary ? `var(--primary)` : null ||

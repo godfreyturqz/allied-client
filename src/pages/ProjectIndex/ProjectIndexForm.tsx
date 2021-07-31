@@ -2,7 +2,7 @@ import React from 'react'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import { FormContainer } from '../../components/Form/FormStyles'
-import { MAIN } from './pageConstants'
+import { TABLE_LIST } from './PAGE_CONSTANTS'
 import { InputChangeEvent, SubmitFormEvent } from '../../types'
 import { ReqIndexForm } from './types'
 
@@ -25,7 +25,7 @@ const ReqIndexNew: React.FC<ReqIndexNewProps> = ({
 
     const back = (e: SubmitFormEvent) => {
         e.preventDefault()
-        setCurrentComponent(MAIN)
+        setCurrentComponent(TABLE_LIST)
         setFormData({
             reqLine: '',
             description: ''

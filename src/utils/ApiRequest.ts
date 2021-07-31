@@ -17,10 +17,10 @@ export class ApiRequest {
         this.objectData = objectData
     }
 
-    reqIndex(){
+    toProjectIndex(){
 
         const config: AxiosRequestConfig = {
-            url: `${this.API_BASE_URL}/req-index/${this.id}`,
+            url: `${this.API_BASE_URL}/projectIndex/${this.id}`,
             method: this.httpReqMethod,
             data: this.objectData
         }

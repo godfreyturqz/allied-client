@@ -2,6 +2,7 @@ import React from 'react'
 import DeleteIcon from '../../icons/DeleteIcon'
 import ButtonIcon from '../ButtonIcon'
 import { Table as StyledTable, TableRow } from './TableStyles'
+import { TableContainer } from './TableStyles'
 
 
 type Data = {
@@ -10,19 +11,20 @@ type Data = {
     description: string
 }
 
-type TableProps = {
+interface TableProps {
     theadData: string[] | React.ReactNode[]
     tbodyData: Data[] | undefined
-    removeReqIndex: (id: string) => void
+    deleteItem?: (id: string) => void
 }
 
 const Table: React.FC<TableProps> = ({
     theadData,
     tbodyData,
-    removeReqIndex
+    deleteItem
 }) => {
 
     return (
+        <TableContainer>
         <StyledTable>
             <thead>
                 <TableRow>
@@ -33,13 +35,17 @@ const Table: React.FC<TableProps> = ({
             </thead>
             <tbody>
                 {
-                    tbodyData?.map(obj => 
+                    tbodyData
+                    ?.sort((prev, next)=> prev.reqLine > next.reqLine ? 1 : -1)
+                    .map((obj: Data) => 
                         <TableRow>
                             {
-                                Object.entries(obj).map(([key, value]) => <td>{key === 'uniqid' ? '' : value}</td>)
+                                Object.entries(obj).map(([key, value]) => 
+                                    <td>{key === ('uniqid' || '_id') ? null : value}</td>
+                                )
                             }
                             <td>
-                                <ButtonIcon onClick={() => removeReqIndex(obj.uniqid)}>
+                                <ButtonIcon onClick={() => deleteItem?.(obj.uniqid)}>
                                     <DeleteIcon/>
                                 </ButtonIcon>
                             </td>
@@ -48,6 +54,7 @@ const Table: React.FC<TableProps> = ({
                 }
             </tbody>
         </StyledTable>
+        </TableContainer>
     )
 }
 
