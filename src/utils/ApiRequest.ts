@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, Method } from 'axios'
 
 // for dev
-const isCloudServer = false
+const isCloudServer = true
 
 export class ApiRequest {
 
@@ -17,10 +17,9 @@ export class ApiRequest {
         this.objectData = objectData
     }
 
-    toProjectIndex(){
-
+    axiosRequest(APIRoute: string){
         const config: AxiosRequestConfig = {
-            url: `${this.API_BASE_URL}/projectIndex/${this.id}`,
+            url: `${this.API_BASE_URL}/${APIRoute}/${this.id}`,
             method: this.httpReqMethod,
             data: this.objectData
         }
@@ -28,5 +27,7 @@ export class ApiRequest {
 
         return response
     }
+    
+    toProjectIndex = () => this.axiosRequest('projectIndex')
 
 }

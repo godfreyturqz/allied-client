@@ -25,35 +25,33 @@ const Table: React.FC<TableProps> = ({
 
     return (
         <TableContainer>
-        <StyledTable>
-            <thead>
-                <TableRow>
+            <StyledTable>
+                <thead>
+                    <TableRow>
+                        {
+                            theadData?.map(tableHead => <th>{tableHead}</th>)
+                        }
+                    </TableRow>
+                </thead>
+                <tbody>
                     {
-                        theadData?.map(tableHead => <th>{tableHead}</th>)
-                    }
-                </TableRow>
-            </thead>
-            <tbody>
-                {
-                    tbodyData
-                    ?.sort((prev, next)=> prev.reqLine > next.reqLine ? 1 : -1)
-                    .map((obj: Data) => 
-                        <TableRow>
-                            {
-                                Object.entries(obj).map(([key, value]) => 
+                        tbodyData
+                        ?.sort((prev, next)=> prev.reqLine > next.reqLine ? 1 : -1)
+                        .map((obj: Data) => 
+                            <TableRow>
+                                { Object.entries(obj).map(( [key, value] ) => 
                                     <td>{key === ('uniqid' || '_id') ? null : value}</td>
-                                )
-                            }
-                            <td>
-                                <ButtonIcon onClick={() => deleteItem?.(obj.uniqid)}>
-                                    <DeleteIcon/>
-                                </ButtonIcon>
-                            </td>
-                        </TableRow>
-                    )
-                }
-            </tbody>
-        </StyledTable>
+                                )}
+                                <td>
+                                    <ButtonIcon onClick={() => deleteItem?.(obj.uniqid)}>
+                                        <DeleteIcon/>
+                                    </ButtonIcon>
+                                </td>
+                            </TableRow>
+                        )
+                    }
+                </tbody>
+            </StyledTable>
         </TableContainer>
     )
 }

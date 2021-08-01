@@ -6,19 +6,20 @@ import { Data } from './types'
 export const useReactQuery = () => {
 
     const queryClient = useQueryClient()
+    const queryKey = 'reqIndex'
 
-    const { data } = useQuery('reqIndex', getReqIndex)
+    const { data } = useQuery(queryKey, getReqIndex)
 
     const createProjectIndex = useMutation((payload: Data) => postReqIndex(payload), {
         onMutate: async (payload: Data) => {
             
             console.log(payload)
-            await queryClient.cancelQueries('reqIndex')
+            await queryClient.cancelQueries(queryKey)
 
-            const previousState = queryClient.getQueryData<Data[]>('reqIndex')
+            const previousState = queryClient.getQueryData<Data[]>(queryKey)
 
             if (previousState) {
-                queryClient.setQueryData<Data[]>('reqIndex', [
+                queryClient.setQueryData<Data[]>(queryKey, [
                     ...previousState,
                     payload
                 ])
@@ -32,12 +33,12 @@ export const useReactQuery = () => {
     const deleteProjectIndex = useMutation((id: string) => deleteReqIndex(id), {
         onMutate: async (id: string) => {
             
-            await queryClient.cancelQueries('reqIndex')
+            await queryClient.cancelQueries(queryKey)
 
-            const previousState = queryClient.getQueryData<Data[]>('reqIndex')
+            const previousState = queryClient.getQueryData<Data[]>(queryKey)
 
             if (previousState) {
-                queryClient.setQueryData<Data[]>('reqIndex', previousState.filter(item => item.uniqid !== id))
+                queryClient.setQueryData<Data[]>(queryKey, previousState.filter(item => item.uniqid !== id))
             }
 
             return { previousState }
