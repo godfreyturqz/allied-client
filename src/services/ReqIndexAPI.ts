@@ -27,6 +27,7 @@ export const postReqIndex = async (formData: ReqIndexForm) => {
         
     } catch (error) {
         console.log('API postReqIndex error:', error)
+        throw new Error(error.message)
     }
 }
 
@@ -48,6 +49,7 @@ export const getReqIndex = async () => {
         
     } catch (error) {
         console.log('API getReqIndex error:', error)
+        throw new Error(error.message)
     }
 }
 
@@ -68,6 +70,7 @@ export const deleteReqIndex = async (id: string) => {
         
     } catch (error) {
         console.log('API deleteReqIndex error:', error)
+        throw new Error(error.message)
     }
 }
     

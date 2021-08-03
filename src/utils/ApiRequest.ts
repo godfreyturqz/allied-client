@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, Method } from 'axios'
 
 // for dev
-const isCloudServer = true
+const isCloudServer = false
 
 export class ApiRequest {
 
